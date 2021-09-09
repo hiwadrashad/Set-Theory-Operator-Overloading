@@ -1,23 +1,10 @@
 ﻿using Set_Theory_Operator_Overloading_LIB.Methods;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Set_Theory_Operator_Overloading_LIB.Sets
 {
-    public class Set<T> : IEnumerable<T> where T : class
+    public class Set<T> where T : class
     {
-        public IEnumerator<T> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
         public Set(T input)
         {
             Value = input;
@@ -25,47 +12,67 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         public T Value;
 
+        //public static Set<T> operator + (Set<T> a, Set<T> b)
+        //{
+        //}
+
         public static bool operator == (Set<T> a , Set<T> b)
         {
-            if (Submethods<T>.GetLength(a.Value) == Submethods<T>.GetLength(b.Value))
+            if (typeof(T).IsArray)
             {
-                foreach (var index in (dynamic)a.Value)
+
+                if (Submethods<T>.GetLength(a.Value) == Submethods<T>.GetLength(b.Value))
                 {
-                    var BList = (dynamic)b.Value;
-                    if (index == BList[index - 1])
+                    foreach (var index in (dynamic)a.Value)
                     {
-                        return true;
+                        var BList = (dynamic)b.Value;
+                        if (index == BList[index - 1])
+                        {
+                            return true;
+                        }
+
                     }
+                    return false;
 
                 }
-                return false;
-
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                return false;
+                throw new ArgumentException("Wrong input type");
             }
         }
 
         public static bool operator !=(Set<T> a, Set<T> b)
         {
-            if (Submethods<T>.GetLength(a.Value) == Submethods<T>.GetLength(b.Value))
+            if (typeof(T).IsArray)
             {
-                foreach (var index in (dynamic)a.Value)
+
+                if (Submethods<T>.GetLength(a.Value) == Submethods<T>.GetLength(b.Value))
                 {
-                    var BList = (dynamic)b.Value;
-                    if (index == BList[index - 1])
+                    foreach (var index in (dynamic)a.Value)
                     {
-                        return false;
+                        var BList = (dynamic)b.Value;
+                        if (index == BList[index - 1])
+                        {
+                            return false;
+                        }
+
                     }
-                
-                }
                     return true;
-                
+
+                }
+                else
+                {
+                    return true;
+                }
             }
             else
             {
-                return true;
+                throw new ArgumentException("Wrong input type");
             }
         }
 

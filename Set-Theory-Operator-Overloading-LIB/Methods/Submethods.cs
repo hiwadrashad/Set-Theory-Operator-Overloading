@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Set_Theory_Operator_Overloading_LIB.Sets;
+using System;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,6 +15,15 @@ namespace Set_Theory_Operator_Overloading_LIB.Methods
                 length = length + 1;
             }
             return length;
+        }
+
+        public static Set<T> Concatenate <A> (Set<T> a, Set<T> b)
+        {
+            var AList = a.Value as A[];
+            var BList = b.Value as A[];
+            AList.CopyTo(BList, AList.Length);
+            a.Value = (dynamic)AList;
+            return a;
         }
     }
 }

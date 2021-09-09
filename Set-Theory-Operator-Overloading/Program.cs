@@ -10,7 +10,8 @@ namespace Set_Theory_Operator_Overloading
         {
             Set<int[]> a = new Set<int[]>( new int[] {1});
             Set<int[]> b = new Set<int[]>(new int[] { 1 });
-            Console.WriteLine(a == b);
+            var concatenated = Submethods<int[]>.Concatenate<int>(a, b);
+            Console.WriteLine(Submethods<int[]>.GetLength(concatenated.Value));
         }
     }
 }
