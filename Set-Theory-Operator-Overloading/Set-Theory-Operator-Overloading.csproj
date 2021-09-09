@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Set_Theory_Operator_Overloading</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Set-Theory-Operator-Overloading-LIB\Set-Theory-Operator-Overloading-LIB.csproj" />
+  </ItemGroup>
+
+</Project>

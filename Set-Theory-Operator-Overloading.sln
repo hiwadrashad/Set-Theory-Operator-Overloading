@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31605.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Set-Theory-Operator-Overloading", "Set-Theory-Operator-Overloading\Set-Theory-Operator-Overloading.csproj", "{2070D96A-36C5-4187-B292-415AFFAD42DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Set-Theory-Operator-Overloading-LIB", "Set-Theory-Operator-Overloading-LIB\Set-Theory-Operator-Overloading-LIB.csproj", "{CE07A66B-365C-41C8-BC25-0CEAB5E1B715}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Set-Theory-Operator-Overloading-UnitTests", "Set-Theory-Operator-Overloading-UnitTests\Set-Theory-Operator-Overloading-UnitTests.csproj", "{4195CECC-2A55-41E5-9F1E-7DA8B9AA8C6F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2070D96A-36C5-4187-B292-415AFFAD42DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2070D96A-36C5-4187-B292-415AFFAD42DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2070D96A-36C5-4187-B292-415AFFAD42DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2070D96A-36C5-4187-B292-415AFFAD42DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE07A66B-365C-41C8-BC25-0CEAB5E1B715}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE07A66B-365C-41C8-BC25-0CEAB5E1B715}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE07A66B-365C-41C8-BC25-0CEAB5E1B715}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE07A66B-365C-41C8-BC25-0CEAB5E1B715}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4195CECC-2A55-41E5-9F1E-7DA8B9AA8C6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4195CECC-2A55-41E5-9F1E-7DA8B9AA8C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4195CECC-2A55-41E5-9F1E-7DA8B9AA8C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4195CECC-2A55-41E5-9F1E-7DA8B9AA8C6F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B8F336BC-52EA-46F4-BFEF-27947D545E49}
+	EndGlobalSection
+EndGlobal
