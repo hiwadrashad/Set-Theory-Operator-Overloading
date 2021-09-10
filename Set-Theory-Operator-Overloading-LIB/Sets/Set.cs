@@ -1,9 +1,10 @@
 ﻿using Set_Theory_Operator_Overloading_LIB.Methods;
 using System;
+using System.Collections;
 
 namespace Set_Theory_Operator_Overloading_LIB.Sets
 {
-    public class Set<T> where T : class
+    public class Set<T> : IEnumerable
     {
         public Set(T input)
         {
@@ -11,10 +12,6 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
         }
 
         public T Value;
-
-        //public static Set<T> operator + (Set<T> a, Set<T> b)
-        //{
-        //}
 
         public static bool operator == (Set<T> a , Set<T> b)
         {
@@ -92,6 +89,11 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
         }
 
         public override int GetHashCode()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerator GetEnumerator()
         {
             throw new NotImplementedException();
         }
