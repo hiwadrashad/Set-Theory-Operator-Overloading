@@ -12,6 +12,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
         }
 
         public T[] Value;
+        public T[][] CartesianValue;
 
         public T this[int index]
         {
@@ -135,6 +136,20 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return Return;
         }
 
+        public static A[] AddWithoutReference<A>(A[] ArrayA, A Value, int sizeincrease = 1)
+        {
+            A[] ReturnArray = new A[ArrayA.Length + sizeincrease];
+            int index = 0;
+            foreach (var AValue in ArrayA)
+            {
+                ReturnArray[index] = AValue;
+                index = index + 1;
+            }
+            ReturnArray[ArrayA.Length + sizeincrease - 1] = Value;
+
+            return ReturnArray;
+        }
+
         public static Set<T> Complement<A>(ref A[] ArrayA, ref A[] ArrayB)
         {
             foreach (var Value in ArrayB)
@@ -166,12 +181,69 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             }
         }
 
+
+
+        public static Set<T> PowerSet(ref T[] InputSet)
+        {
+            T[] TempArray = new T[0];
+            double count = Math.Pow(2, InputSet.Length);
+            for (int i = 1; i <= count - 1; i++)
+            {
+                string str = Convert.ToString(i, 2).PadLeft(InputSet.Length, '0');
+                for (int j = 0; j < str.Length; j++)
+                {
+                    if (str[j] == '1')
+                    {
+                        Add<T>(ref TempArray,InputSet[j]);
+                    }
+                }
+                if (typeof(T).IsNumericType())
+                {
+                    Add<T>(ref TempArray, (dynamic)(-1));
+                }
+                else if (typeof(T).IsLanguageType())
+                {
+                    Add<T>(ref TempArray, (dynamic)(" "));
+                }
+
+            }
+            InputSet = TempArray;
+            return new Set<T>(TempArray);
+        }
+
+        public static Set<T> CartesianProduct(T[] arr1, T[] arr2)
+        {
+            T[][] combos = new T[arr1.Length * arr2.Length][];
+
+            int ii = 0;
+            foreach (var Value in arr1)
+            {
+                foreach (var Value2 in arr2)
+                {
+                    T[] combo = new T[2];
+
+                    combo[0] = Value;
+                    combo[1] = Value2;
+                    combos[ii] = combo;
+
+                    ii++;
+                }
+            }
+
+            return new Set<T>(new T[0]) {  CartesianValue = combos};
+        }
+
         public static int Count<A>(A[] Input)
         {
 
             return Submethods<A[]>.GetLength(Input);
         }
 
+        public static T[] Clear(ref T[] input)
+        {
+            input = new T[0];
+            return input;
+        }
         public static bool Contains<A>(A[] input, A Value)
         {
             return Submethods<A[]>.Contains<A>(input, Value);

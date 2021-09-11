@@ -13,7 +13,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Methods
             if (typeof(T) == typeof(int[]) || typeof(T) == typeof(byte[]) || typeof(T) == typeof(sbyte[]) ||
             typeof(T) == typeof(short[]) || typeof(T) == typeof(ushort[]) || typeof(T) == typeof(uint[]) ||
             typeof(T) == typeof(long[]) || typeof(T) == typeof(ulong[]) || typeof(T) == typeof(string[])||
-            typeof(T).IsAssignableFrom(typeof(IEnumerable)) || typeof(T).IsAssignableFrom(typeof(ICollection)))
+            typeof(T).IsAssignableFrom(typeof(IEnumerable)) || typeof(T).IsAssignableFrom(typeof(ICollection)) || typeof(T) == typeof(char))
             {
                 var SetArray = input as A[];
                 if (SetArray.Length == 0)
@@ -50,7 +50,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Methods
             if (typeof(T) == typeof(int) || typeof(T) == typeof(byte) || typeof(T) == typeof(sbyte) ||
             typeof(T) == typeof(short) || typeof(T) == typeof(ushort) || typeof(T) == typeof(uint) ||
             typeof(T) == typeof(long) || typeof(T) == typeof(ulong) || typeof(T) == typeof(string) ||
-            typeof(T).IsAssignableFrom(typeof(IEnumerable)) || typeof(T).IsAssignableFrom(typeof(ICollection)))
+            typeof(T).IsAssignableFrom(typeof(IEnumerable)) || typeof(T).IsAssignableFrom(typeof(ICollection)) || typeof(T) == typeof(char))
             {
                 var SetArray = input as A[];
                 if (SetArray.Length == 0)
