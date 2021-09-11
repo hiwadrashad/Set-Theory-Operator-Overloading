@@ -45,11 +45,11 @@ namespace Set_Theory_Operator_Overloading_LIB.Methods
 
 
 
-        public static A[] RemoveRepeatingValue<A>(ref T input)
+        public static A[] RemoveRepeatingValue<A>(ref T[] input)
         {
-            if (typeof(T) == typeof(int[]) || typeof(T) == typeof(byte[]) || typeof(T) == typeof(sbyte[]) ||
-            typeof(T) == typeof(short[]) || typeof(T) == typeof(ushort[]) || typeof(T) == typeof(uint[]) ||
-            typeof(T) == typeof(long[]) || typeof(T) == typeof(ulong[]) || typeof(T) == typeof(string[]) ||
+            if (typeof(T) == typeof(int) || typeof(T) == typeof(byte) || typeof(T) == typeof(sbyte) ||
+            typeof(T) == typeof(short) || typeof(T) == typeof(ushort) || typeof(T) == typeof(uint) ||
+            typeof(T) == typeof(long) || typeof(T) == typeof(ulong) || typeof(T) == typeof(string) ||
             typeof(T).IsAssignableFrom(typeof(IEnumerable)) || typeof(T).IsAssignableFrom(typeof(ICollection)))
             {
                 var SetArray = input as A[];
