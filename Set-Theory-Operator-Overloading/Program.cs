@@ -8,11 +8,10 @@ namespace Set_Theory_Operator_Overloading
     {
         static void Main(string[] args)
         {
-            Set<int[]> a = new Set<int[]>( new int[] {1, 1});
-            Set<int[]> b = new Set<int[]>(new int[] { 1 });
-            var ConcatenatedSet = Submethods<int[]>.Concatenate<int>(a,b);
-            bool doesntrepeat = Submethods<int[]>.ArrayDoesntRepeat<int>(a.Value);
-            Console.WriteLine(doesntrepeat);
+            Set<int> a = new Set<int>( new int[] {1,2,2,3});
+            Set<int> b = new Set<int>(new int[] { 1 });
+            Submethods<int[]>.RemoveRepeatingValue<int>(ref a.Value);
+            Console.WriteLine(a.Value[0].ToString() + a.Value[1].ToString() + a.Value[2].ToString());
         }
     }
 }
