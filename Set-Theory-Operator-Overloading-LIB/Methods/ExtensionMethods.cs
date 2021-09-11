@@ -12,6 +12,8 @@ namespace Set_Theory_Operator_Overloading_LIB.Methods
             return DynamicGeneric[index];
         }
 
+
+
         public static bool IsNumericType(this object o)
         {
             switch (Type.GetTypeCode(o as Type))

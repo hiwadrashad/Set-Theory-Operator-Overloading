@@ -1,18 +1,21 @@
 ﻿using Set_Theory_Operator_Overloading_LIB.Methods;
 using System;
-using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Set_Theory_Operator_Overloading_LIB.Sets
 {
-    public class Set<T> : IEnumerable 
+    public class List<T> : IDisposable
     {
-        public Set(T[] input)
-        {
-            Value = Submethods<T>.RemoveRepeatingValue<T>(ref input);
-        }
-
         public T[] Value;
         public T[][] CartesianValue;
+
+        public List(T[] Input)
+        {
+            Value = Input;
+        }
 
         public T this[int index]
         {
@@ -20,7 +23,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             set => Submethods<T[]>.IncreaseArray<T>(ref Value, value);
         }
 
-        public static bool operator < (Set<T> MainSet, Set<T> Subset)
+        public static bool operator <(List<T> MainSet, List<T> Subset)
         {
             bool NOTFOUND = false;
             foreach (var Value in Subset.Value)
@@ -37,7 +40,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return true;
         }
 
-        public static bool operator >(Set<T> SuperSet, Set<T> Subset)
+        public static bool operator >(List<T> SuperSet, List<T> Subset)
         {
             bool NOTFOUND = false;
             foreach (var Value in Subset.Value)
@@ -55,53 +58,53 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
         }
 
 
-        public static bool operator == (Set<T> a , Set<T> b)
+        public static bool operator ==(List<T> a, List<T> b)
         {
 
 
-                if (a.Value.Length == b.Value.Length)
+            if (a.Value.Length == b.Value.Length)
+            {
+                foreach (var index in (dynamic)a.Value)
                 {
-                    foreach (var index in (dynamic)a.Value)
+                    var BList = (dynamic)b.Value;
+                    if (index == BList[index - 1])
                     {
-                        var BList = (dynamic)b.Value;
-                        if (index == BList[index - 1])
-                        {
-                            return true;
-                        }
-
+                        return true;
                     }
-                    return false;
 
                 }
-                else
-                {
-                    return false;
-                }
+                return false;
+
+            }
+            else
+            {
+                return false;
+            }
 
         }
 
-        public static bool operator !=(Set<T> a, Set<T> b)
+        public static bool operator !=(List<T> a, List<T> b)
         {
 
 
-                if (a.Value.Length == b.Value.Length)
+            if (a.Value.Length == b.Value.Length)
+            {
+                foreach (var index in (dynamic)a.Value)
                 {
-                    foreach (var index in (dynamic)a.Value)
+                    var BList = (dynamic)b.Value;
+                    if (index == BList[index - 1])
                     {
-                        var BList = (dynamic)b.Value;
-                        if (index == BList[index - 1])
-                        {
-                            return false;
-                        }
-
+                        return false;
                     }
-                    return true;
 
                 }
-                else
-                {
-                    return true;
-                }
+                return true;
+
+            }
+            else
+            {
+                return true;
+            }
 
         }
 
@@ -112,13 +115,13 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             {
                 if (Submethods<A[]>.Contains<A>(ArrayA, Value))
                 {
-                    Set<A>.Add<A>(ref Array,Value);
+                    Set<A>.Add<A>(ref Array, Value);
                 }
             }
             return new Set<A>(Array);
         }
 
-        public static Set<A> Add<A>(ref A[] ArrayA,A Value, int sizeincrease = 1)
+        public static Set<A> Add<A>(ref A[] ArrayA, A Value, int sizeincrease = 1)
         {
             A[] ReturnArray = new A[ArrayA.Length + sizeincrease];
             int index = 0;
@@ -156,10 +159,10 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             {
                 if (Set<A>.Contains<A>(ArrayA, Value))
                 {
-                    Remove<A>(ref ArrayA,Value);
+                    Remove<A>(ref ArrayA, Value);
                 }
             }
-            return new Set<T> ((dynamic)ArrayA);
+            return new Set<T>((dynamic)ArrayA);
         }
 
         public static A[] Remove<A>(ref A[] ArrayA, A Value, int sizedecrease = 1)
@@ -194,7 +197,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
                 {
                     if (str[j] == '1')
                     {
-                        Add<T>(ref TempArray,InputSet[j]);
+                        Add<T>(ref TempArray, InputSet[j]);
                     }
                 }
                 if (typeof(T).IsNumericType())
@@ -230,7 +233,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
                 }
             }
 
-            return new Set<T>(new T[0]) {  CartesianValue = combos};
+            return new Set<T>(new T[0]) { CartesianValue = combos };
         }
 
         public static int Count<A>(A[] Input)
@@ -275,12 +278,13 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return Value.GetHashCode();
         }
 
-        public IEnumerator GetEnumerator()
+        public System.Collections.IEnumerator GetEnumerator()
         {
             return Value.GetEnumerator();
         }
 
-        ~Set()
+
+        ~List()
         {
             this.Dispose(false);
         }
@@ -297,5 +301,41 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
             this.Dispose();
         }
+
+
+        public bool IsReadOnly
+        {
+            get { return false; }
+        }
+    }
+    public class ListEnumerator<T> : System.Collections.IEnumerator
+    {
+        private readonly IEnumerator<T> _inner;
+
+        public ListEnumerator(IEnumerable<T> inner)
+        {
+            this._inner = inner.GetEnumerator();
+        }
+
+        public bool MoveNext()
+        {
+            return _inner.MoveNext();
+        }
+
+        public void Reset()
+        {
+            _inner.Reset();
+        }
+
+        public T Current
+        {
+            get { return _inner.Current; }
+        }
+
+        object  System.Collections.IEnumerator.Current
+        {
+            get { return _inner.Current; }
+        }
+
     }
 }
