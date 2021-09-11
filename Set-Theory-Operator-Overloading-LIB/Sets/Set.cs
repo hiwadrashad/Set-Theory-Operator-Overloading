@@ -20,6 +20,41 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             set => Submethods<T[]>.IncreaseArray<T>(ref Value, value);
         }
 
+        public static void InsertData(ref T[] Collection, int index, T InputValue)
+        {
+            T[] TempCollection = new T[0] { };
+            for (int i = 0; i < index; i++)
+            {
+                Add<T>(ref TempCollection, Collection[i]);
+            }
+            Add<T>(ref TempCollection, InputValue);
+            for (int i = index; i < Collection.Length; i++)
+            {
+                Add<T>(ref TempCollection, Collection[i]);
+            }
+
+            Collection = TempCollection;
+        }
+
+        public static void SetAt(ref T[] Collection, int index, T InputValue)
+        {
+            if (index > Collection.Length)
+            {
+                throw new ArgumentException("Faulty value");
+            }
+            else
+            {
+
+                Collection[index] = InputValue;
+            }
+
+        }
+
+        public static void RemoveAtIndex<T>(ref T[] Collection, int index)
+        {
+            Submethods<int>.Remove(ref Collection, index);
+        }
+
         public static bool operator < (Set<T> MainSet, Set<T> Subset)
         {
             bool NOTFOUND = false;

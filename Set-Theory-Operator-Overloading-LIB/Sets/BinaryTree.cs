@@ -1,70 +1,173 @@
-﻿using Set_Theory_Operator_Overloading_LIB.Methods;
+﻿using Set_Theory_Operator_Overloading_LIB.DTO_s;
+using Set_Theory_Operator_Overloading_LIB.Methods;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Set_Theory_Operator_Overloading_LIB.Sets
 {
-    public class List<T> : IDisposable
+
+    public class BinaryTree<T>
     {
-        public T[] Value;
-        public T[][] CartesianValue;
 
-        public List(T[] Input)
+        public Node<T> Root { get; set; }
+
+        public bool Add(int value, T Data)
         {
-            Value = Input;
+            Node<T> before = null, after = this.Root;
+
+            while (after != null)
+            {
+                before = after;
+                if (value < after.Id)
+                    after = after.LeftNode;
+                else if (value > after.Id)
+                    after = after.RightNode;
+                else
+                {
+
+                    return false;
+                }
+            }
+
+            Node<T> newNode = new Node<T>();
+            newNode.Id = value;
+            newNode.Data = Data;
+
+            if (this.Root == null)
+                this.Root = newNode;
+            else
+            {
+                if (value < before.Id)
+                    before.LeftNode = newNode;
+                else
+                    before.RightNode = newNode;
+            }
+
+            return true;
         }
 
-        public T this[int index]
+        public Node<T> Find(int value)
         {
-            get => (T)Value[index];
-            set => Submethods<T[]>.IncreaseArray<T>(ref Value, value);
+            return this.Find(value, this.Root);
         }
 
-        public static void SetAt(ref T[] Collection, int index, T InputValue)
+        public void Remove(int value)
         {
-            if (index > Collection.Length)
+            this.Root = Remove(this.Root, value);
+        }
+
+        private Node<T> Remove(Node<T> parent, int key)
+        {
+            if (parent == null) return parent;
+
+            if (key < parent.Id) parent.LeftNode = Remove(parent.LeftNode, key);
+            else if (key > parent.Id)
+                parent.RightNode = Remove(parent.RightNode, key);
+
+            else
+            {
+                if (parent.LeftNode == null)
+                    return parent.RightNode;
+                else if (parent.RightNode == null)
+                    return parent.LeftNode;
+
+                parent.Id = MinValue(parent.RightNode);
+
+                parent.RightNode = Remove(parent.RightNode, parent.Id);
+            }
+
+            return parent;
+        }
+
+        private int MinValue(Node<T> node)
+        {
+            int minv = node.Id;
+
+            while (node.LeftNode != null)
+            {
+                minv = node.LeftNode.Id;
+                node = node.LeftNode;
+            }
+
+            return minv;
+        }
+
+        private Node<T> Find(int value, Node<T> parent)
+        {
+            if (parent != null)
+            {
+                if (value == parent.Id) return parent;
+                if (value < parent.Id)
+                    return Find(value, parent.LeftNode);
+                else
+                    return Find(value, parent.RightNode);
+            }
+
+            return null;
+        }
+
+        public int GetTreeDepth()
+        {
+            return this.GetTreeDepth(this.Root);
+        }
+
+        private int GetTreeDepth(Node<T> parent)
+        {
+            return parent == null ? 0 : Math.Max(GetTreeDepth(parent.LeftNode), GetTreeDepth(parent.RightNode)) + 1;
+        }
+
+
+        public void SetAt(BinaryTree<T> Collection, int index, T InputValue)
+        {
+            if (index > Collection.GetTreeDepth())
             {
                 throw new ArgumentException("Faulty value");
             }
             else
             {
-
-                Collection[index] = InputValue;
+                var Item = Collection.Find(index);
+                Item.Data = (dynamic)InputValue;
             }
-        
+
         }
 
-        public static void InsertData(ref T[] Collection, int index, T InputValue)
+
+
+        public bool Contains(Node<T> parent, T Value)
         {
-            T[] TempCollection = new T[0] { };
-            for (int i = 0; i < index; i++)
             {
-                Add<T>(ref TempCollection, Collection[i]);
-            }
-            Add<T>(ref TempCollection, InputValue);
-            for (int i = index; i < Collection.Length; i++)
-            {
-                Add<T>(ref TempCollection, Collection[i]);
-            }
 
-            Collection = TempCollection;
+                if (parent != null)
+                {
+                    if (parent.Data == (dynamic)Value)
+                    {
+                        return true;
+                    }
+                    Contains(parent.LeftNode, Value);
+                    Contains(parent.RightNode, Value);
+                }
+
+                return false;
+            }
         }
 
-        public static void RemoveAtIndex<T>(ref T[] Collection, int index)
+        public static void RemoveAtIndex<T>(BinaryTree<T> Collection, int index)
         {
-            Submethods<int>.Remove(ref Collection, index);
+            Collection.Remove(index);
         }
 
-
-        public static bool operator <(List<T> MainSet, List<T> Subset)
+        public static bool operator <(BinaryTree<T> MainSet, BinaryTree<T> Subset)
         {
             bool NOTFOUND = false;
-            foreach (var Value in Subset.Value)
+            for (int i = 1; i <= Subset.GetTreeDepth(); i++)
             {
-                if (!Set<int>.Contains<int>((dynamic)MainSet.Value, (dynamic)Value))
+                if (MainSet.GetTreeDepth() == 0)
+                {
+                    return false;
+                }
+                if (!MainSet.Contains(MainSet.Find(1), MainSet.Find(i).Data))
                 {
                     NOTFOUND = true;
                 }
@@ -76,12 +179,20 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return true;
         }
 
-        public static bool operator >(List<T> SuperSet, List<T> Subset)
+
+
+
+
+        public static bool operator >(BinaryTree<T> SuperSet, BinaryTree<T> Subset)
         {
             bool NOTFOUND = false;
-            foreach (var Value in Subset.Value)
+            for (int i = 0; i == Subset.GetTreeDepth(); i++)
             {
-                if (!Set<int>.Contains<int>((dynamic)SuperSet.Value, (dynamic)Value))
+                if (SuperSet.GetTreeDepth() == 0)
+                {
+                    return false;
+                }
+                if (!SuperSet.Contains(SuperSet.Find(1), SuperSet.Find(i).Data))
                 {
                     NOTFOUND = true;
                 }
@@ -93,16 +204,39 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return true;
         }
 
+        public bool ContainsList(Node<T> parent, T Value)
+        {
+            {
 
-        public static bool operator ==(List<T> a, List<T> b)
+                if (parent != null)
+                {
+                    if (parent.Data == (dynamic)Value)
+                    {
+                        return true;
+                    }
+                    Contains(parent.LeftNode, Value);
+                    Contains(parent.RightNode, Value);
+                }
+
+                return false;
+            }
+        }
+        /// <summary>
+        /// /////////////////////////
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+
+        public static bool operator == (BinaryTree<T> a, BinaryTree<T> b)
         {
 
 
-            if (a.Value.Length == b.Value.Length)
+            if (a.GetTreeDepth() == b.GetTreeDepth())
             {
-                foreach (var index in (dynamic)a.Value)
+                foreach (var index in (dynamic)a.)
                 {
-                    var BList = (dynamic)b.Value;
+                    var BList = (dynamic)a.;
                     if (index == BList[index - 1])
                     {
                         return true;
@@ -119,7 +253,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         }
 
-        public static bool operator !=(List<T> a, List<T> b)
+        public static bool operator !=(Set<T> a, Set<T> b)
         {
 
 
@@ -314,13 +448,12 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return Value.GetHashCode();
         }
 
-        public System.Collections.IEnumerator GetEnumerator()
+        public IEnumerator GetEnumerator()
         {
             return Value.GetEnumerator();
         }
 
-
-        ~List()
+        ~Set()
         {
             this.Dispose(false);
         }
@@ -337,41 +470,9 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
             this.Dispose();
         }
-
-
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
-    }
-    public class ListEnumerator<T> : System.Collections.IEnumerator
-    {
-        private readonly IEnumerator<T> _inner;
-
-        public ListEnumerator(IEnumerable<T> inner)
-        {
-            this._inner = inner.GetEnumerator();
-        }
-
-        public bool MoveNext()
-        {
-            return _inner.MoveNext();
-        }
-
-        public void Reset()
-        {
-            _inner.Reset();
-        }
-
-        public T Current
-        {
-            get { return _inner.Current; }
-        }
-
-        object  System.Collections.IEnumerator.Current
-        {
-            get { return _inner.Current; }
-        }
-
     }
 }
+
+
+
+

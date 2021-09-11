@@ -8,18 +8,18 @@ namespace Set_Theory_Operator_Overloading
     {
         static void Main(string[] args)
         {
-            Set<int> a = new Set<int>( new int[] {1,2,2,3});
-            Set<int> b = new Set<int>(new int[] { 1, 2,4});
-            var c = Set<int>.CartesianProduct(a.Value,b.Value);
-            foreach (var Value in c)
-            {
-                foreach (var Value2 in Value)
-                {
-                    Console.WriteLine(Value2);
-                }
-                Console.WriteLine(" ");
-            }
-            //Console.WriteLine(c.Value[0].ToString()  + c.Value[1].ToString() + c.Value[2].ToString() + c.Value[3].ToString() + c.Value[4].ToString() + c.Value[5].ToString() + c.Value[6].ToString());
+            BinaryTree<int> BTS = new BinaryTree<int>();
+            BTS.Add(1,40);
+            BTS.Add(2, 50);
+            BTS.Add(3, 60);
+
+            BinaryTree<int> BTS2 = new BinaryTree<int>();
+            BTS2.Add(4, 10);
+            BTS2.Add(5, 20);
+            BTS2.Add(6, 30);
+
+            Console.WriteLine(isset);
+            //Console.WriteLine(a.Value[0].ToString()  + a.Value[1].ToString() + a.Value[2].ToString() + a.Value[3].ToString());
         }
     }
 }
