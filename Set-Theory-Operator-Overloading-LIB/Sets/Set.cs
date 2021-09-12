@@ -10,6 +10,13 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
         {
             Value = Submethods<T>.RemoveRepeatingValue<T>(ref input);
         }
+        public Set(T[] input, bool SetWithoutRemoving)
+        {
+            if (SetWithoutRemoving)
+            {
+                Value = input;
+            }
+        }
 
         public T[] Value;
         public T[][] CartesianValue;
@@ -38,7 +45,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         public static void SetAt(ref T[] Collection, int index, T InputValue)
         {
-            if (index > Collection.Length)
+            if (index > Collection.Length || index < Collection.Length)
             {
                 throw new ArgumentException("Faulty value");
             }

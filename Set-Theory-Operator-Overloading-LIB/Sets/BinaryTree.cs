@@ -1,7 +1,7 @@
 ﻿using Set_Theory_Operator_Overloading_LIB.DTO_s;
 using Set_Theory_Operator_Overloading_LIB.Methods;
 using System;
-
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +12,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
     {
 
         public Node<T> Root { get; set; }
+        public T[][] CartesianValue { get; set; } 
 
         public bool Add(int value, T Data)
         {
@@ -204,7 +205,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return true;
         }
 
-        public bool ContainsList(Node<T> parent, T Value)
+        public bool ContainsValue(Node<T> parent, T Value)
         {
             {
 
@@ -228,7 +229,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
         /// <param name="b"></param>
         /// <returns></returns>
 
-        public static bool operator == (BinaryTree<T> a, BinaryTree<T> b)
+        public static bool operator ==(BinaryTree<T> a, BinaryTree<T> b)
         {
 
 
@@ -323,8 +324,21 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return ReturnArray;
         }
 
-        public static Set<T> Complement<A>(ref A[] ArrayA, ref A[] ArrayB)
+        public static BinaryTree<T> ConvertArrayToNodes(T[] Array)
         {
+            BinaryTree<T> Nodes = new BinaryTree<T>();
+            int Indexing = 0;
+            foreach (var Value in Array)
+            {
+                Indexing = Indexing + 1;
+                Nodes.Add(Indexing, Value);
+            }
+            return Nodes;
+        }
+
+        public static BinaryTree<T> Complement<A>(ref A[] ArrayA, ref A[] ArrayB)
+        {
+            Node<T> Nodes = new Node<T>();
             foreach (var Value in ArrayB)
             {
                 if (Set<A>.Contains<A>(ArrayA, Value))
@@ -332,7 +346,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
                     Remove<A>(ref ArrayA, Value);
                 }
             }
-            return new Set<T>((dynamic)ArrayA);
+            return ConvertArrayToNodes((dynamic)ArrayA);
         }
 
         public static A[] Remove<A>(ref A[] ArrayA, A Value, int sizedecrease = 1)
@@ -356,9 +370,9 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
 
 
-        public static Set<T> PowerSet(ref T[] InputSet)
+        public BinaryTree<T> PowerSet(ref T[] InputSet)
         {
-            T[] TempArray = new T[0];
+            Node<T> Nodes = new Node<T>();
             double count = Math.Pow(2, InputSet.Length);
             for (int i = 1; i <= count - 1; i++)
             {
@@ -367,24 +381,25 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
                 {
                     if (str[j] == '1')
                     {
-                        Add<T>(ref TempArray, InputSet[j]);
+                        this.Add(GetTreeDepth() + 1, InputSet[j]);
                     }
                 }
                 if (typeof(T).IsNumericType())
                 {
-                    Add<T>(ref TempArray, (dynamic)(-1));
+                    this.Add(GetTreeDepth() + 1, (dynamic)(-1));
                 }
                 else if (typeof(T).IsLanguageType())
                 {
-                    Add<T>(ref TempArray, (dynamic)(" "));
+                    this.Add(GetTreeDepth() + 1, (dynamic)(" "));
                 }
 
             }
-            InputSet = TempArray;
-            return new Set<T>(TempArray);
+            BinaryTree<T> RetunValue = new BinaryTree<T>();
+            RetunValue.Root = Nodes;
+            return RetunValue;
         }
 
-        public static Set<T> CartesianProduct(T[] arr1, T[] arr2)
+        public static BinaryTree<T> CartesianProduct(T[] arr1, T[] arr2)
         {
             T[][] combos = new T[arr1.Length * arr2.Length][];
 
@@ -403,14 +418,9 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
                 }
             }
 
-            return new Set<T>(new T[0]) { CartesianValue = combos };
+            return new BinaryTree<T>() { CartesianValue = combos };
         }
 
-        public static int Count<A>(A[] Input)
-        {
-
-            return Submethods<A[]>.GetLength(Input);
-        }
 
         public static T[] Clear(ref T[] input)
         {
@@ -422,9 +432,47 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return Submethods<A[]>.Contains<A>(input, Value);
         }
 
-        public static T[] ToArray<A>(Set<T> input)
+        public static T[] ToValueArray<A>(Node<T> StartingNode)
         {
-            return input.Value;
+            Node<T> CurrentNode = StartingNode.DeepClone();
+            T[] Nodes = new T[0];
+            if (CurrentNode.Id == 1)
+            {
+                Add<T>(ref Nodes, CurrentNode.Data);
+            }
+            while (CurrentNode.LeftNode != null)
+            {
+                CurrentNode = CurrentNode.LeftNode;
+                Add<T>(ref Nodes, CurrentNode.Data);
+
+            }
+            while (CurrentNode.RightNode != null)
+            {
+                CurrentNode = CurrentNode.RightNode;
+                Add<T>(ref Nodes, CurrentNode.Data);
+            }
+            return Nodes;
+        }
+
+        public static Node<T>[] ToArray<A>(Node<T> Startingnode)
+        {
+            Node<T> CurrentNode = Startingnode.DeepClone();
+            Node<T>[] Nodes = new Node<T>[0];
+            if (CurrentNode.Id == 1)
+            {
+                Add<Node<T>>(ref Nodes,CurrentNode);
+            }
+            while (CurrentNode.LeftNode != null)
+            {
+                CurrentNode = CurrentNode.LeftNode;
+                Add<Node<T>>(ref Nodes, CurrentNode);
+            }
+            while (CurrentNode.RightNode != null)
+            {
+                CurrentNode = CurrentNode.RightNode;
+                Add<Node<T>>(ref Nodes, CurrentNode);
+            }
+            return Nodes;
         }
 
         public override bool Equals(object obj)
@@ -443,17 +491,49 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
         }
 
 
-        public override int GetHashCode()
+        public int GetHashCode(Node<T> StartingNode)
         {
-            return Value.GetHashCode();
+            Node<T> CurrentNode = StartingNode.DeepClone();
+            Node<T>[] Nodes = new Node<T>[0];
+            if (CurrentNode.Id == 1)
+            {
+                Add<Node<T>>(ref Nodes, CurrentNode);
+            }
+            while (CurrentNode.LeftNode != null)
+            {
+                CurrentNode = CurrentNode.LeftNode;
+                Add<Node<T>>(ref Nodes, CurrentNode);
+            }
+            while (CurrentNode.RightNode != null)
+            {
+                CurrentNode = CurrentNode.RightNode;
+                Add<Node<T>>(ref Nodes, CurrentNode);
+            }
+            return Nodes.GetHashCode();
         }
 
-        public IEnumerator GetEnumerator()
-        {
-            return Value.GetEnumerator();
-        }
 
-        ~Set()
+        public IEnumerator<T> GetEnumerator(Node<T> StartingNode)
+        {
+            Node<T> CurrentNode = StartingNode.DeepClone();
+            Node<T>[] Nodes = new Node<T>[0];
+            if (CurrentNode.Id == 1)
+            {
+                Add<Node<T>>(ref Nodes, CurrentNode);
+            }
+            while (CurrentNode.LeftNode != null)
+            {
+                CurrentNode = CurrentNode.LeftNode;
+                Add<Node<T>>(ref Nodes, CurrentNode);
+            }
+            while (CurrentNode.RightNode != null)
+            {
+                CurrentNode = CurrentNode.RightNode;
+                Add<Node<T>>(ref Nodes, CurrentNode);
+            }
+            return (IEnumerator<T>)Nodes.GetEnumerator();
+        }
+        ~BinaryTree()
         {
             this.Dispose(false);
         }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Set_Theory_Operator_Overloading_LIB.DTO_s
 {
+    [Serializable]
     public class Node<T>
     {
         public Node<T> LeftNode { get; set; }

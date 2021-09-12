@@ -7,55 +7,14 @@ using System.Threading.Tasks;
 
 namespace Set_Theory_Operator_Overloading_LIB.Sets
 {
-    public class List<T> : IDisposable
+    public class List<T> : Set<T>, IDisposable
     {
-        public T[] Value;
-        public T[][] CartesianValue;
+        public new T[] Value;
+        public new T[][] CartesianValue;
 
-        public List(T[] Input)
+        public List(T[] Input, bool DoSet = true) : base(Input,DoSet)
         {
             Value = Input;
-        }
-
-        public T this[int index]
-        {
-            get => (T)Value[index];
-            set => Submethods<T[]>.IncreaseArray<T>(ref Value, value);
-        }
-
-        public static void SetAt(ref T[] Collection, int index, T InputValue)
-        {
-            if (index > Collection.Length)
-            {
-                throw new ArgumentException("Faulty value");
-            }
-            else
-            {
-
-                Collection[index] = InputValue;
-            }
-        
-        }
-
-        public static void InsertData(ref T[] Collection, int index, T InputValue)
-        {
-            T[] TempCollection = new T[0] { };
-            for (int i = 0; i < index; i++)
-            {
-                Add<T>(ref TempCollection, Collection[i]);
-            }
-            Add<T>(ref TempCollection, InputValue);
-            for (int i = index; i < Collection.Length; i++)
-            {
-                Add<T>(ref TempCollection, Collection[i]);
-            }
-
-            Collection = TempCollection;
-        }
-
-        public static void RemoveAtIndex<T>(ref T[] Collection, int index)
-        {
-            Submethods<int>.Remove(ref Collection, index);
         }
 
 
@@ -144,20 +103,20 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         }
 
-        public static Set<A> Intersection<A>(ref A[] ArrayA, ref A[] ArrayB)
+        public static new List<A> Intersection<A>(ref A[] ArrayA, ref A[] ArrayB)
         {
             A[] Array = new A[0];
             foreach (var Value in ArrayB)
             {
                 if (Submethods<A[]>.Contains<A>(ArrayA, Value))
                 {
-                    Set<A>.Add<A>(ref Array, Value);
+                    List<A>.Add<A>(ref Array, Value);
                 }
             }
-            return new Set<A>(Array);
+            return new List<A>(Array);
         }
 
-        public static Set<A> Add<A>(ref A[] ArrayA, A Value, int sizeincrease = 1)
+        public static new List<A> Add<A>(ref A[] ArrayA, A Value, int sizeincrease = 1)
         {
             A[] ReturnArray = new A[ArrayA.Length + sizeincrease];
             int index = 0;
@@ -170,26 +129,13 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
             ArrayA = ReturnArray;
 
-            var Return = new Set<A>(ReturnArray);
+            var Return = new List<A>(ReturnArray);
 
             return Return;
         }
 
-        public static A[] AddWithoutReference<A>(A[] ArrayA, A Value, int sizeincrease = 1)
-        {
-            A[] ReturnArray = new A[ArrayA.Length + sizeincrease];
-            int index = 0;
-            foreach (var AValue in ArrayA)
-            {
-                ReturnArray[index] = AValue;
-                index = index + 1;
-            }
-            ReturnArray[ArrayA.Length + sizeincrease - 1] = Value;
 
-            return ReturnArray;
-        }
-
-        public static Set<T> Complement<A>(ref A[] ArrayA, ref A[] ArrayB)
+        public static new List<T> Complement<A>(ref A[] ArrayA, ref A[] ArrayB)
         {
             foreach (var Value in ArrayB)
             {
@@ -198,31 +144,13 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
                     Remove<A>(ref ArrayA, Value);
                 }
             }
-            return new Set<T>((dynamic)ArrayA);
-        }
-
-        public static A[] Remove<A>(ref A[] ArrayA, A Value, int sizedecrease = 1)
-        {
-            if (Submethods<A>.Contains<A>(ArrayA, Value))
-            {
-                for (int i = Submethods<A[]>.GetLength(ArrayA) - 1; i > -1; i--)
-                {
-                    if ((dynamic)Value == ArrayA[i])
-                    {
-                        Submethods<A>.Remove<A>(ref ArrayA, i);
-                    }
-                }
-                return ArrayA;
-            }
-            else
-            {
-                return ArrayA;
-            }
+            return new List<T>((dynamic)ArrayA);
         }
 
 
 
-        public static Set<T> PowerSet(ref T[] InputSet)
+
+        public static new List<T> PowerSet(ref T[] InputSet)
         {
             T[] TempArray = new T[0];
             double count = Math.Pow(2, InputSet.Length);
@@ -247,10 +175,10 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
             }
             InputSet = TempArray;
-            return new Set<T>(TempArray);
+            return new List<T>(TempArray);
         }
 
-        public static Set<T> CartesianProduct(T[] arr1, T[] arr2)
+        public static new Set<T> CartesianProduct(T[] arr1, T[] arr2)
         {
             T[][] combos = new T[arr1.Length * arr2.Length][];
 
@@ -269,29 +197,9 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
                 }
             }
 
-            return new Set<T>(new T[0]) { CartesianValue = combos };
+            return new List<T>(new T[0]) { CartesianValue = combos };
         }
 
-        public static int Count<A>(A[] Input)
-        {
-
-            return Submethods<A[]>.GetLength(Input);
-        }
-
-        public static T[] Clear(ref T[] input)
-        {
-            input = new T[0];
-            return input;
-        }
-        public static bool Contains<A>(A[] input, A Value)
-        {
-            return Submethods<A[]>.Contains<A>(input, Value);
-        }
-
-        public static T[] ToArray<A>(Set<T> input)
-        {
-            return input.Value;
-        }
 
         public override bool Equals(object obj)
         {
@@ -314,7 +222,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return Value.GetHashCode();
         }
 
-        public System.Collections.IEnumerator GetEnumerator()
+        public new System.Collections.IEnumerator GetEnumerator()
         {
             return Value.GetEnumerator();
         }
@@ -325,12 +233,12 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             this.Dispose(false);
         }
 
-        public void Dispose()
+        public new  void Dispose()
         {
             this.Dispose(true);
         }
 
-        private void Dispose(bool disposing)
+        private new void Dispose(bool disposing)
         {
             if (disposing)
                 GC.SuppressFinalize(this);
