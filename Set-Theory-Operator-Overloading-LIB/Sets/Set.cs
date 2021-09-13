@@ -1,4 +1,5 @@
 ﻿using Set_Theory_Operator_Overloading_LIB.Methods;
+using Set_Theory_Operator_Overloading_LIB.Singletons;
 using System;
 using System.Collections;
 
@@ -27,7 +28,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             set => Submethods<T[]>.IncreaseArray<T>(ref Value, value);
         }
 
-        public static void InsertData(ref T[] Collection, int index, T InputValue)
+        public void InsertData(ref T[] Collection, int index, T InputValue)
         {
             T[] TempCollection = new T[0] { };
             for (int i = 0; i < index; i++)
@@ -43,7 +44,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             Collection = TempCollection;
         }
 
-        public static void SetAt(ref T[] Collection, int index, T InputValue)
+        public void SetAt(ref T[] Collection, int index, T InputValue)
         {
             if (index > Collection.Length || index < Collection.Length)
             {
@@ -57,17 +58,19 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         }
 
-        public static void RemoveAtIndex<T>(ref T[] Collection, int index)
+        public void RemoveAtIndex<T>(ref T[] Collection, int index)
         {
             Submethods<int>.Remove(ref Collection, index);
         }
 
         public static bool operator < (Set<T> MainSet, Set<T> Subset)
         {
+            Set<T> SetInstance = IteratorsSingleton<T>.GetSet();
+
             bool NOTFOUND = false;
             foreach (var Value in Subset.Value)
             {
-                if (!Set<int>.Contains<int>((dynamic)MainSet.Value, (dynamic)Value))
+                if (!SetInstance.Contains<int>((dynamic)MainSet.Value, (dynamic)Value))
                 {
                     NOTFOUND = true;
                 }
@@ -81,10 +84,12 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         public static bool operator >(Set<T> SuperSet, Set<T> Subset)
         {
+            Set<T> SetInstance = IteratorsSingleton<T>.GetSet();
+
             bool NOTFOUND = false;
             foreach (var Value in Subset.Value)
             {
-                if (!Set<int>.Contains<int>((dynamic)SuperSet.Value, (dynamic)Value))
+                if (!SetInstance.Contains<int>((dynamic)SuperSet.Value, (dynamic)Value))
                 {
                     NOTFOUND = true;
                 }
@@ -147,20 +152,22 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         }
 
-        public static Set<A> Intersection<A>(ref A[] ArrayA, ref A[] ArrayB)
+        public Set<A> Intersection<A>(ref A[] ArrayA, ref A[] ArrayB)
         {
+            Set<T> SetInstance = IteratorsSingleton<T>.GetSet();
+
             A[] Array = new A[0];
             foreach (var Value in ArrayB)
             {
                 if (Submethods<A[]>.Contains<A>(ArrayA, Value))
                 {
-                    Set<A>.Add<A>(ref Array,Value);
+                    SetInstance.Add<A>(ref Array,Value);
                 }
             }
             return new Set<A>(Array);
         }
 
-        public static Set<A> Add<A>(ref A[] ArrayA,A Value, int sizeincrease = 1)
+        public Set<A> Add<A>(ref A[] ArrayA,A Value, int sizeincrease = 1)
         {
             A[] ReturnArray = new A[ArrayA.Length + sizeincrease];
             int index = 0;
@@ -178,7 +185,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return Return;
         }
 
-        public static A[] AddWithoutReference<A>(A[] ArrayA, A Value, int sizeincrease = 1)
+        public A[] AddWithoutReference<A>(A[] ArrayA, A Value, int sizeincrease = 1)
         {
             A[] ReturnArray = new A[ArrayA.Length + sizeincrease];
             int index = 0;
@@ -192,11 +199,12 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return ReturnArray;
         }
 
-        public static Set<T> Complement<A>(ref A[] ArrayA, ref A[] ArrayB)
+        public Set<T> Complement<A>(ref A[] ArrayA, ref A[] ArrayB)
         {
+            Set<T> SetInstance = IteratorsSingleton<T>.GetSet();
             foreach (var Value in ArrayB)
             {
-                if (Set<A>.Contains<A>(ArrayA, Value))
+                if (SetInstance.Contains<A>(ArrayA, Value))
                 {
                     Remove<A>(ref ArrayA,Value);
                 }
@@ -204,7 +212,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return new Set<T> ((dynamic)ArrayA);
         }
 
-        public static A[] Remove<A>(ref A[] ArrayA, A Value, int sizedecrease = 1)
+        public A[] Remove<A>(ref A[] ArrayA, A Value, int sizedecrease = 1)
         {
             if (Submethods<A>.Contains<A>(ArrayA, Value))
             {
@@ -225,7 +233,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
 
 
-        public static Set<T> PowerSet(ref T[] InputSet)
+        public Set<T> PowerSet(ref T[] InputSet)
         {
             T[] TempArray = new T[0];
             double count = Math.Pow(2, InputSet.Length);
@@ -253,7 +261,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return new Set<T>(TempArray);
         }
 
-        public static Set<T> CartesianProduct(T[] arr1, T[] arr2)
+        public Set<T> CartesianProduct(T[] arr1, T[] arr2)
         {
             T[][] combos = new T[arr1.Length * arr2.Length][];
 
@@ -275,23 +283,23 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return new Set<T>(new T[0]) {  CartesianValue = combos};
         }
 
-        public static int Count<A>(A[] Input)
+        public int Count<A>(A[] Input)
         {
 
             return Submethods<A[]>.GetLength(Input);
         }
 
-        public static T[] Clear(ref T[] input)
+        public T[] Clear(ref T[] input)
         {
             input = new T[0];
             return input;
         }
-        public static bool Contains<A>(A[] input, A Value)
+        public bool Contains<A>(A[] input, A Value)
         {
             return Submethods<A[]>.Contains<A>(input, Value);
         }
 
-        public static T[] ToArray<A>(Set<T> input)
+        public T[] ToArray<A>(Set<T> input)
         {
             return input.Value;
         }

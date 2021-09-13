@@ -20,13 +20,9 @@ namespace Set_Theory_Operator_Overloading
 
             BTS.Add(4, 70);
 
-
-            var BTSArray = BinaryTree<int>.ToValueArray<int>(BTS.Root);
-            var BTS2Array = BinaryTree<int>.ToValueArray<int>(BTS2.Root);
-            var Complement = BinaryTree<int>.Complement<int>(ref BTSArray, ref BTS2Array);
-            var Array = BinaryTree<int>.ToValueArray<int>(Complement.Root);
-
-            Console.WriteLine(Array[0].ToString()  + Array[1].ToString() + Array[2].ToString());
+            //BinaryTree<int>.Dosomething();
+            BinaryTree<int>.Dosomething();
+            Console.WriteLine("");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Set_Theory_Operator_Overloading_LIB.Methods;
+using Set_Theory_Operator_Overloading_LIB.Singletons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +21,12 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         public static bool operator <(List<T> MainSet, List<T> Subset)
         {
+            Set<T> SetInstance = new Set<T>(new T[0]);
+
             bool NOTFOUND = false;
             foreach (var Value in Subset.Value)
             {
-                if (!Set<int>.Contains<int>((dynamic)MainSet.Value, (dynamic)Value))
+                if (!SetInstance.Contains<int>((dynamic)MainSet.Value, (dynamic)Value))
                 {
                     NOTFOUND = true;
                 }
@@ -37,10 +40,12 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         public static bool operator >(List<T> SuperSet, List<T> Subset)
         {
+            Set<T> SetInstance = new Set<T>(new T[0]);
+
             bool NOTFOUND = false;
             foreach (var Value in Subset.Value)
             {
-                if (!Set<int>.Contains<int>((dynamic)SuperSet.Value, (dynamic)Value))
+                if (!SetInstance.Contains<int>((dynamic)SuperSet.Value, (dynamic)Value))
                 {
                     NOTFOUND = true;
                 }
@@ -103,20 +108,22 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         }
 
-        public static new List<A> Intersection<A>(ref A[] ArrayA, ref A[] ArrayB)
+        public new List<A> Intersection<A>(ref A[] ArrayA, ref A[] ArrayB)
         {
+            List<T> SetList = new List<T>(new T[0]);
+
             A[] Array = new A[0];
             foreach (var Value in ArrayB)
             {
                 if (Submethods<A[]>.Contains<A>(ArrayA, Value))
                 {
-                    List<A>.Add<A>(ref Array, Value);
+                    SetList.Add<A>(ref Array, Value);
                 }
             }
             return new List<A>(Array);
         }
 
-        public static new List<A> Add<A>(ref A[] ArrayA, A Value, int sizeincrease = 1)
+        public new List<A> Add<A>(ref A[] ArrayA, A Value, int sizeincrease = 1)
         {
             A[] ReturnArray = new A[ArrayA.Length + sizeincrease];
             int index = 0;
@@ -135,13 +142,16 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
         }
 
 
-        public static new List<T> Complement<A>(ref A[] ArrayA, ref A[] ArrayB)
+        public new List<T> Complement<A>(ref A[] ArrayA, ref A[] ArrayB)
         {
+            Set<T> SetInstance = new Set<T>(new T[0]);
+            List<T> SetList = new List<T>(new T[0]);
+
             foreach (var Value in ArrayB)
             {
-                if (Set<A>.Contains<A>(ArrayA, Value))
+                if (SetInstance.Contains<A>(ArrayA, Value))
                 {
-                    Remove<A>(ref ArrayA, Value);
+                    SetList.Remove<A>(ref ArrayA, Value);
                 }
             }
             return new List<T>((dynamic)ArrayA);
@@ -150,7 +160,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
 
 
-        public static new List<T> PowerSet(ref T[] InputSet)
+        public new List<T> PowerSet(ref T[] InputSet)
         {
             T[] TempArray = new T[0];
             double count = Math.Pow(2, InputSet.Length);
@@ -178,7 +188,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return new List<T>(TempArray);
         }
 
-        public static new Set<T> CartesianProduct(T[] arr1, T[] arr2)
+        public new List<T> CartesianProduct(T[] arr1, T[] arr2)
         {
             T[][] combos = new T[arr1.Length * arr2.Length][];
 

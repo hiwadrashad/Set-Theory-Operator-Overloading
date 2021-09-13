@@ -1,5 +1,6 @@
 ﻿using Set_Theory_Operator_Overloading_LIB.DTO_s;
 using Set_Theory_Operator_Overloading_LIB.Methods;
+using Set_Theory_Operator_Overloading_LIB.Singletons;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -59,7 +60,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             this.Root = Remove(this.Root, value);
         }
 
-        private Node<T> Remove(Node<T> parent, int key)
+        public Node<T> Remove(Node<T> parent, int key)
         {
             if (parent == null) return parent;
 
@@ -82,7 +83,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return parent;
         }
 
-        private int MinValue(Node<T> node)
+        public int MinValue(Node<T> node)
         {
             int minv = node.Id;
 
@@ -95,7 +96,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return minv;
         }
 
-        private Node<T> Find(int value, Node<T> parent)
+        public Node<T> Find(int value, Node<T> parent)
         {
             if (parent != null)
             {
@@ -114,7 +115,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return this.GetTreeDepth(this.Root);
         }
 
-        private int GetTreeDepth(Node<T> parent)
+        public int GetTreeDepth(Node<T> parent)
         {
             return parent == null ? 0 : Math.Max(GetTreeDepth(parent.LeftNode), GetTreeDepth(parent.RightNode)) + 1;
         }
@@ -154,7 +155,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             }
         }
 
-        public static void RemoveAtIndex<T>(BinaryTree<T> Collection, int index)
+        public void RemoveAtIndex<T>(BinaryTree<T> Collection, int index)
         {
             Collection.Remove(index);
         }
@@ -228,49 +229,83 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-
-        public static bool operator ==(BinaryTree<T> a, BinaryTree<T> b)
+        /// 
+        public static void Dosomething()
         {
-
-
-            if (a.GetTreeDepth() == b.GetTreeDepth())
-            {
-                foreach (var index in (dynamic)a.)
-                {
-                    var BList = (dynamic)a.;
-                    if (index == BList[index - 1])
-                    {
-                        return true;
-                    }
-
-                }
-                return false;
-
-            }
-            else
-            {
-                return false;
-            }
-
+            var BinaryTreeInstance = new BinaryTree<T>();
         }
 
-        public static bool operator !=(Set<T> a, Set<T> b)
+        public static bool operator == (BinaryTree<T> a, BinaryTree<T> b)
         {
-
-
-            if (a.Value.Length == b.Value.Length)
+            BinaryTree<T> BinaryTreeInstance = new BinaryTree<T>();
+            var CurrentNode = a.Root;
+            if (a.GetTreeDepth() == b.GetTreeDepth())
             {
-                foreach (var index in (dynamic)a.Value)
+                if (CurrentNode.Id == 1)
                 {
-                    var BList = (dynamic)b.Value;
-                    if (index == BList[index - 1])
+                    if (!((dynamic)b.Find(1).Data == (dynamic)a.Find(1).Data))
                     {
                         return false;
                     }
-
                 }
-                return true;
+                while (CurrentNode.LeftNode != null)
+                {
+                    if (!((dynamic)CurrentNode.Data == (dynamic)b.Find(CurrentNode.Id).Data))
+                    {
+                        return false;
+                    }
+                    CurrentNode = CurrentNode.LeftNode;
+                }
+                while (CurrentNode.RightNode != null)
+                {
+                    if (!((dynamic)CurrentNode.Data == (dynamic)b.Find(CurrentNode.Id).Data))
+                    {
+                        return false;
+                    }
+                    CurrentNode = CurrentNode.RightNode;
+                }
 
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        public static bool operator !=(BinaryTree<T> a, BinaryTree<T> b)
+        {
+
+            var BinaryTreeInstance = new BinaryTree<T>();
+            var CurrentNode = a.Root;
+            if (a.GetTreeDepth() == b.GetTreeDepth())
+            {
+                if (CurrentNode.Id == 1)
+                {
+                    if (!((dynamic)b.Find(1).Data == (dynamic)a.Find(1).Data))
+                    {
+                        return true;
+                    }
+                }
+                while (CurrentNode.LeftNode != null)
+                {
+                    if (!((dynamic)CurrentNode.Data == (dynamic)b.Find(CurrentNode.Id).Data))
+                    {
+                        return true;
+                    }
+                    CurrentNode = CurrentNode.LeftNode;
+                }
+                while (CurrentNode.RightNode != null)
+                {
+                    if (!((dynamic)CurrentNode.Data == (dynamic)b.Find(CurrentNode.Id).Data))
+                    {
+                        return true;
+                    }
+                    CurrentNode = CurrentNode.RightNode;
+                }
+
+                return false;
             }
             else
             {
@@ -279,38 +314,22 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         }
 
-        public static Set<A> Intersection<A>(ref A[] ArrayA, ref A[] ArrayB)
+        public A[] Intersection<A>(ref A[] ArrayA, ref A[] ArrayB)
         {
+            Set<T> SetInstance = IteratorsSingleton<T>.GetSet();
+
             A[] Array = new A[0];
             foreach (var Value in ArrayB)
             {
                 if (Submethods<A[]>.Contains<A>(ArrayA, Value))
                 {
-                    Set<A>.Add<A>(ref Array, Value);
+                    SetInstance.Add<A>(ref Array, Value);
                 }
             }
-            return new Set<A>(Array);
+            return Array;
         }
 
-        public static Set<A> Add<A>(ref A[] ArrayA, A Value, int sizeincrease = 1)
-        {
-            A[] ReturnArray = new A[ArrayA.Length + sizeincrease];
-            int index = 0;
-            foreach (var AValue in ArrayA)
-            {
-                ReturnArray[index] = AValue;
-                index = index + 1;
-            }
-            ReturnArray[ArrayA.Length + sizeincrease - 1] = Value;
-
-            ArrayA = ReturnArray;
-
-            var Return = new Set<A>(ReturnArray);
-
-            return Return;
-        }
-
-        public static A[] AddWithoutReference<A>(A[] ArrayA, A Value, int sizeincrease = 1)
+        public A[] Add<A>(ref A[] ArrayA, A Value, int sizeincrease = 1)
         {
             A[] ReturnArray = new A[ArrayA.Length + sizeincrease];
             int index = 0;
@@ -324,7 +343,21 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return ReturnArray;
         }
 
-        public static BinaryTree<T> ConvertArrayToNodes(T[] Array)
+        public A[] AddWithoutReference<A>(A[] ArrayA, A Value, int sizeincrease = 1)
+        {
+            A[] ReturnArray = new A[ArrayA.Length + sizeincrease];
+            int index = 0;
+            foreach (var AValue in ArrayA)
+            {
+                ReturnArray[index] = AValue;
+                index = index + 1;
+            }
+            ReturnArray[ArrayA.Length + sizeincrease - 1] = Value;
+
+            return ReturnArray;
+        }
+
+        public BinaryTree<T> ConvertArrayToNodes(T[] Array)
         {
             BinaryTree<T> Nodes = new BinaryTree<T>();
             int Indexing = 0;
@@ -336,12 +369,13 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return Nodes;
         }
 
-        public static BinaryTree<T> Complement<A>(ref A[] ArrayA, ref A[] ArrayB)
+        public BinaryTree<T> Complement<A>(ref A[] ArrayA, ref A[] ArrayB)
         {
+            Set<T> SetInstance = IteratorsSingleton<T>.GetSet();
             Node<T> Nodes = new Node<T>();
             foreach (var Value in ArrayB)
             {
-                if (Set<A>.Contains<A>(ArrayA, Value))
+                if (SetInstance.Contains<A>(ArrayA, Value))
                 {
                     Remove<A>(ref ArrayA, Value);
                 }
@@ -349,7 +383,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return ConvertArrayToNodes((dynamic)ArrayA);
         }
 
-        public static A[] Remove<A>(ref A[] ArrayA, A Value, int sizedecrease = 1)
+        public A[] Remove<A>(ref A[] ArrayA, A Value, int sizedecrease = 1)
         {
             if (Submethods<A>.Contains<A>(ArrayA, Value))
             {
@@ -399,7 +433,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return RetunValue;
         }
 
-        public static BinaryTree<T> CartesianProduct(T[] arr1, T[] arr2)
+        public BinaryTree<T> CartesianProduct(T[] arr1, T[] arr2)
         {
             T[][] combos = new T[arr1.Length * arr2.Length][];
 
@@ -422,17 +456,17 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
         }
 
 
-        public static T[] Clear(ref T[] input)
+        public T[] Clear(ref T[] input)
         {
             input = new T[0];
             return input;
         }
-        public static bool Contains<A>(A[] input, A Value)
+        public bool Contains<A>(A[] input, A Value)
         {
             return Submethods<A[]>.Contains<A>(input, Value);
         }
 
-        public static T[] ToValueArray<A>(Node<T> StartingNode)
+        public T[] ToValueArray<A>(Node<T> StartingNode)
         {
             Node<T> CurrentNode = StartingNode.DeepClone();
             T[] Nodes = new T[0];
@@ -454,7 +488,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return Nodes;
         }
 
-        public static Node<T>[] ToArray<A>(Node<T> Startingnode)
+        public Node<T>[] ToArray<A>(Node<T> Startingnode)
         {
             Node<T> CurrentNode = Startingnode.DeepClone();
             Node<T>[] Nodes = new Node<T>[0];
