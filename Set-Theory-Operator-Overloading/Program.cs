@@ -1,4 +1,5 @@
-﻿using Set_Theory_Operator_Overloading_LIB.Methods;
+﻿using Set_Theory_Operator_Overloading_LIB.DTO_s;
+using Set_Theory_Operator_Overloading_LIB.Methods;
 using Set_Theory_Operator_Overloading_LIB.Sets;
 using System;
 
@@ -18,8 +19,11 @@ namespace Set_Theory_Operator_Overloading
             BTS2.Add(2, 50);
             BTS2.Add(3, 60);
 
-            bool ReturnValue = BTS == BTS2;
-            Console.WriteLine(ReturnValue);
+            Vertex<int> Vertex = new Vertex<int>(1);
+            Vertex<int> Vertex2 = new Vertex<int>(2);
+            Vertex.AddEdge(Vertex2);
+
+            Console.WriteLine(Vertex.Neighbors[0].Value);
         }
     }
 }

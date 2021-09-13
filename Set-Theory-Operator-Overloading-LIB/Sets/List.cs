@@ -275,34 +275,5 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             get { return false; }
         }
     }
-    public class ListEnumerator<T> : System.Collections.IEnumerator
-    {
-        private readonly IEnumerator<T> _inner;
-
-        public ListEnumerator(IEnumerable<T> inner)
-        {
-            this._inner = inner.GetEnumerator();
-        }
-
-        public bool MoveNext()
-        {
-            return _inner.MoveNext();
-        }
-
-        public void Reset()
-        {
-            _inner.Reset();
-        }
-
-        public T Current
-        {
-            get { return _inner.Current; }
-        }
-
-        object  System.Collections.IEnumerator.Current
-        {
-            get { return _inner.Current; }
-        }
-
-    }
+ 
 }
