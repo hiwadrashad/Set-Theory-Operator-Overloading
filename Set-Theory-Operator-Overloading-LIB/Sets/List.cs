@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Set_Theory_Operator_Overloading_LIB.Sets
 {
-    public class List<T> : Set<T>, IDisposable
+    public class List<T> : Set<T>, IDisposable, Interfaces.IList<T>
     {
         public new T[] Value;
         public new T[][] CartesianValue;
@@ -19,6 +19,15 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
         }
 
 
+        public new T[] GetValues()
+        {
+            return Value;
+        }
+
+        public new T[][] GetCartesian()
+        {
+            return CartesianValue;
+        }
         public static bool operator <(List<T> MainSet, List<T> Subset)
         {
             Set<T> SetInstance = new Set<T>(new T[0]);
@@ -61,6 +70,10 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
         public static bool operator ==(List<T> a, List<T> b)
         {
 
+            if (a == null || b == null)
+            {
+                return false;
+            }
 
             if (a.Value.Length == b.Value.Length)
             {

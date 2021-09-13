@@ -9,4 +9,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Set-Theory-Operator-Overloading-LIB\Set-Theory-Operator-Overloading-LIB.csproj" />
+    <ProjectReference Include="..\Set-Theory-Operator-Overloading-UnitTests\Set-Theory-Operator-Overloading-UnitTests.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -2,10 +2,11 @@
 using Set_Theory_Operator_Overloading_LIB.Singletons;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Set_Theory_Operator_Overloading_LIB.Sets
 {
-    public class Set<T> : IEnumerable 
+    public class Set<T> : IEnumerable ,Interfaces.ISet<T>
     {
         public Set(T[] input)
         {
@@ -22,10 +23,21 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
         public T[] Value;
         public T[][] CartesianValue;
 
+
         public T this[int index]
         {
             get => (T)Value[index];
             set => Submethods<T[]>.IncreaseArray<T>(ref Value, value);
+        }
+
+        public T[] GetValues()
+        {
+            return Value;
+        }
+
+        public T[][] GetCartesian()
+        {
+            return CartesianValue;
         }
 
         public void InsertData(ref T[] Collection, int index, T InputValue)
@@ -65,7 +77,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         public static bool operator < (Set<T> MainSet, Set<T> Subset)
         {
-            Set<T> SetInstance = IteratorsSingleton<T>.GetSet();
+            Set<T> SetInstance = new Set<T>(new T[0]);
 
             bool NOTFOUND = false;
             foreach (var Value in Subset.Value)
@@ -84,7 +96,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         public static bool operator >(Set<T> SuperSet, Set<T> Subset)
         {
-            Set<T> SetInstance = IteratorsSingleton<T>.GetSet();
+            Set<T> SetInstance = new Set<T>(new T[0]);
 
             bool NOTFOUND = false;
             foreach (var Value in Subset.Value)
@@ -154,7 +166,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         public Set<A> Intersection<A>(ref A[] ArrayA, ref A[] ArrayB)
         {
-            Set<T> SetInstance = IteratorsSingleton<T>.GetSet();
+            Set<T> SetInstance = new Set<T>(new T[0]) ;
 
             A[] Array = new A[0];
             foreach (var Value in ArrayB)
@@ -201,7 +213,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         public Set<T> Complement<A>(ref A[] ArrayA, ref A[] ArrayB)
         {
-            Set<T> SetInstance = IteratorsSingleton<T>.GetSet();
+            Set<T> SetInstance = new Set<T>(new T[0]);
             foreach (var Value in ArrayB)
             {
                 if (SetInstance.Contains<A>(ArrayA, Value))
@@ -340,7 +352,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             this.Dispose(true);
         }
 
-        private void Dispose(bool disposing)
+        public void Dispose(bool disposing)
         {
             if (disposing)
                 GC.SuppressFinalize(this);

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Set_Theory_Operator_Overloading_LIB.Sets;
+using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +8,8 @@ namespace Set_Theory_Operator_Overloading_LIB.Interfaces
 {
     public interface IList<T>
     {
-
+        T[] GetValues();
+        T[][] GetCartesian();
         List<A> Intersection<A>(ref A[] ArrayA, ref A[] ArrayB);
         List<A> Add<A>(ref A[] ArrayA, A Value, int sizeincrease = 1);
         List<T> Complement<A>(ref A[] ArrayA, ref A[] ArrayB);

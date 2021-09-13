@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Set_Theory_Operator_Overloading_LIB.Sets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,10 @@ namespace Set_Theory_Operator_Overloading_Startup
         {
 
             services.AddControllers();
+            services.AddScoped<Set_Theory_Operator_Overloading_LIB.Interfaces.ISet<int>,Set_Theory_Operator_Overloading_LIB.Sets.Set<int>>();
+            services.AddScoped<Set_Theory_Operator_Overloading_LIB.Interfaces.IList<int>, Set_Theory_Operator_Overloading_LIB.Sets.List<int>>();
+            services.AddScoped<Set_Theory_Operator_Overloading_LIB.Interfaces.ISet<int>, Set_Theory_Operator_Overloading_LIB.Sets.Set<int>>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Set_Theory_Operator_Overloading_Startup", Version = "v1" });

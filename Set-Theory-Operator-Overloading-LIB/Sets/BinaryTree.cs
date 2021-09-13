@@ -316,7 +316,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         public A[] Intersection<A>(ref A[] ArrayA, ref A[] ArrayB)
         {
-            Set<T> SetInstance = IteratorsSingleton<T>.GetSet();
+            Set<T> SetInstance = new Set<T>(new T[0]);
 
             A[] Array = new A[0];
             foreach (var Value in ArrayB)
@@ -371,7 +371,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         public BinaryTree<T> Complement<A>(ref A[] ArrayA, ref A[] ArrayB)
         {
-            Set<T> SetInstance = IteratorsSingleton<T>.GetSet();
+            Set<T> SetInstance = new Set<T>(new T[0]);
             Node<T> Nodes = new Node<T>();
             foreach (var Value in ArrayB)
             {

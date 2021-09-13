@@ -14,15 +14,12 @@ namespace Set_Theory_Operator_Overloading
             BTS.Add(3, 60);
 
             BinaryTree<int> BTS2 = new BinaryTree<int>();
-            BTS2.Add(4, 10);
-            BTS2.Add(5, 20);
-            BTS2.Add(6, 30);
+            BTS2.Add(1, 40);
+            BTS2.Add(2, 50);
+            BTS2.Add(3, 60);
 
-            BTS.Add(4, 70);
-
-            //BinaryTree<int>.Dosomething();
-            BinaryTree<int>.Dosomething();
-            Console.WriteLine("");
+            bool ReturnValue = BTS == BTS2;
+            Console.WriteLine(ReturnValue);
         }
     }
 }

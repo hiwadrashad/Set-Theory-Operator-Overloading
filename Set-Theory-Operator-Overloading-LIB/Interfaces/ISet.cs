@@ -10,15 +10,13 @@ namespace Set_Theory_Operator_Overloading_LIB.Interfaces
     public interface ISet<T>
     {
 
-        T[] Value { get; set; }
-        T[][] CartesianValue { get; set; }
-
         public T this[int index]
         {
             get;
             set;
         }
-
+        T[] GetValues();
+        T[][] GetCartesian();
         void InsertData(ref T[] Collection, int index, T InputValue);
         void SetAt(ref T[] Collection, int index, T InputValue);
         void RemoveAtIndex<T>(ref T[] Collection, int index);
