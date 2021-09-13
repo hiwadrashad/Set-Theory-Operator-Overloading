@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StartUp
+namespace Set_Theory_Operator_Overloading_Startup
 {
     public class Startup
     {
@@ -30,7 +30,7 @@ namespace StartUp
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "StartUp", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Set_Theory_Operator_Overloading_Startup", Version = "v1" });
             });
         }
 
@@ -41,7 +41,7 @@ namespace StartUp
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "StartUp v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Set_Theory_Operator_Overloading_Startup v1"));
             }
 
             app.UseHttpsRedirection();
