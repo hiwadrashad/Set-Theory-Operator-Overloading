@@ -1,4 +1,5 @@
 ﻿using Set_Theory_Operator_Overloading_LIB.DTO_s;
+using Set_Theory_Operator_Overloading_LIB.Interfaces;
 using Set_Theory_Operator_Overloading_LIB.Methods;
 using System;
 using System.Collections;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Set_Theory_Operator_Overloading_LIB.Sets
 {
-    public class Graph<T>
+    public class Graph<T> : IGraph<T>
     {
         public Vertex<T>[] vertices;
 
