@@ -1,5 +1,7 @@
 ﻿using Set_Theory_Operator_Overloading_LIB.DTO_s;
+using Set_Theory_Operator_Overloading_LIB.Methods;
 using System;
+using System.Collections;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -7,14 +9,14 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 {
     public class Graph<T>
     {
-        // The list of vertices in the graph
-        private List<Vertex<T>> vertices;
+        public Vertex<T>[] vertices;
 
-        // The number of vertices
+        public Vertex<T>[][] CartesianValue;
+
         int size;
 
-        public List<Vertex<T>> Vertices { get { return vertices; } }
-        public int Size { get { return vertices.Count; } }
+        public Vertex<T>[] Vertices { get { return vertices; } }
+        public int Size { get { return vertices.Length; } }
 
 
         public Graph(int initialSize)
@@ -26,29 +28,91 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
             size = initialSize;
 
-            vertices = new List<Vertex<T>>(initialSize);
+            vertices = new Vertex<T>[initialSize];
 
         }
 
-        public Graph(List<Vertex<T>> initialNodes)
+        public Graph(Vertex<T>[] initialNodes)
         {
             vertices = initialNodes;
-            size = vertices.Count;
+            size = vertices.Length;
         }
 
-        public void AddVertex(Vertex<T> vertex)
+        public void AddVertex(Vertex<T> vertex, int sizeincrease = 1)
         {
-            vertices.Add(vertex);
+            Vertex<T>[] ReturnArray = new Vertex<T>[vertices.Length + sizeincrease];
+            int index = 0;
+            foreach (var AValue in vertices)
+            {
+                ReturnArray[index] = AValue;
+                index = index + 1;
+            }
+            ReturnArray[vertices.Length + sizeincrease - 1] = vertex;
+
+            vertices = ReturnArray;
         }
 
         public void RemoveVertex(Vertex<T> vertex)
         {
-            vertices.Remove(vertex);
+            int index = 0;
+            foreach (var item in Vertices)
+            {
+                if ((dynamic)item == (dynamic)vertex)
+                {
+                    break;
+                }
+                index = index + 1;
+            }
+            Vertex<T>[] ReturnArray = new Vertex<T>[Vertices.Length - 1];
+            for (int i = index; i <= Vertices.Length - 1; i++)
+            {
+                if (i == Vertices.Length - 1)
+                {
+                    int Index2 = 0;
+                    foreach (var item in Vertices)
+                    {
+                        if (Index2 == Vertices.Length - 1)
+                        {
+
+                        }
+                        else
+                        {
+                            ReturnArray[Index2] = (dynamic)Vertices[Index2];
+                        }
+                        Index2 = Index2 + 1;
+                    }
+                }
+                else
+                {
+                    Vertices[i] = Vertices[i + 1];
+                }
+            }
         }
 
         public bool HasVertex(Vertex<T> vertex)
         {
-            return vertices.Contains(vertex);
+            foreach (var Item in Vertices)
+            {
+                if (Item == vertex)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool HasVertexOptional(Vertex<T>[] Graph, Vertex<T> vertex)
+        {
+            foreach (var Node in Graph)
+            {
+                if (Node == vertex)
+                {
+                    return true;
+                }
+
+            }
+            return false;
+
         }
 
         public void Search(Vertex<T> root)
@@ -65,72 +129,16 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="EdgeCollection"></param>
-        /// <param name="Edge"></param>
-        /// <param name="sizeincrease"></param>
-        /// <returns></returns>
-        public Vertex<T>[] AddEdge<T>(ref Vertex<T>[] EdgeCollection, Vertex<T> Edge, int sizeincrease = 1)
+        public Vertex<T>[] GetValues()
         {
-            Vertex<T>[] ReturnArray = new Vertex<T>[EdgeCollection.Length + sizeincrease];
-            int index = 0;
-            foreach (var AValue in EdgeCollection)
-            {
-                ReturnArray[index] = AValue;
-                index = index + 1;
-            }
-            ReturnArray[EdgeCollection.Length + sizeincrease - 1] = Edge;
-
-            EdgeCollection = ReturnArray;
-
-
-            return EdgeCollection;
+            return vertices;
         }
 
-
-
-        public static A[] RemoveEdge<A>(Vertex<A>[] Array, int index)
-        {
-            A[] ReturnArray = new A[Array.Length - 1];
-            for (int i = index; i <= Array.Length - 1; i++)
-            {
-                if (i == Array.Length - 1)
-                {
-                    int Index2 = 0;
-                    foreach (var item in Array)
-                    {
-                        if (Index2 == Array.Length - 1)
-                        {
-
-                        }
-                        else
-                        {
-                            ReturnArray[Index2] = Array[Index2];
-                        }
-                        Index2 = Index2 + 1;
-                    }
-                }
-                else
-                {
-                    Array[i] = Array[i + 1];
-                }
-            }
-            Array = ReturnArray;
-            return Array;
-        }
-
-        public T[] GetValues()
-        {
-            return Value;
-        }
-
-        public T[][] GetCartesian()
+        public Vertex<T>[][] GetCartesian()
         {
             return CartesianValue;
         }
+
 
         public void InsertData(ref T[] Collection, int index, T InputValue)
         {
@@ -167,14 +175,14 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             Submethods<int>.Remove(ref Collection, index);
         }
 
-        public static bool operator <(Set<T> MainSet, Set<T> Subset)
+        public static bool operator <(Graph<T> MainSet, Graph<T> Subset)
         {
             Set<T> SetInstance = new Set<T>(new T[0]);
 
             bool NOTFOUND = false;
-            foreach (var Value in Subset.Value)
+            foreach (var Value in Subset.vertices)
             {
-                if (!SetInstance.Contains<int>((dynamic)MainSet.Value, (dynamic)Value))
+                if (!SetInstance.Contains<int>((dynamic)MainSet.vertices, (dynamic)Value))
                 {
                     NOTFOUND = true;
                 }
@@ -186,14 +194,14 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return true;
         }
 
-        public static bool operator >(Set<T> SuperSet, Set<T> Subset)
+        public static bool operator >(Graph<T> SuperSet, Graph<T> Subset)
         {
             Set<T> SetInstance = new Set<T>(new T[0]);
 
             bool NOTFOUND = false;
-            foreach (var Value in Subset.Value)
+            foreach (var Value in Subset.vertices)
             {
-                if (!SetInstance.Contains<int>((dynamic)SuperSet.Value, (dynamic)Value))
+                if (!SetInstance.Contains<int>((dynamic)SuperSet.vertices, (dynamic)Value))
                 {
                     NOTFOUND = true;
                 }
@@ -206,15 +214,15 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
         }
 
 
-        public static bool operator ==(Set<T> a, Set<T> b)
+        public static bool operator ==(Graph<T> a, Graph<T> b)
         {
 
 
-            if (a.Value.Length == b.Value.Length)
+            if (a.vertices.Length == b.vertices.Length)
             {
-                foreach (var index in (dynamic)a.Value)
+                foreach (var index in (dynamic)a.vertices)
                 {
-                    var BList = (dynamic)b.Value;
+                    var BList = (dynamic)b.vertices;
                     if (index == BList[index - 1])
                     {
                         return true;
@@ -231,15 +239,15 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         }
 
-        public static bool operator !=(Set<T> a, Set<T> b)
+        public static bool operator !=(Graph<T> a, Graph<T> b)
         {
 
 
-            if (a.Value.Length == b.Value.Length)
+            if (a.Vertices.Length == b.vertices.Length)
             {
-                foreach (var index in (dynamic)a.Value)
+                foreach (var index in (dynamic)a.vertices)
                 {
-                    var BList = (dynamic)b.Value;
+                    var BList = (dynamic)b.vertices;
                     if (index == BList[index - 1])
                     {
                         return false;
@@ -256,19 +264,39 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         }
 
-        public Set<A> Intersection<A>(ref A[] ArrayA, ref A[] ArrayB)
+        public Graph<A> Intersection<A>(ref Vertex<A>[] ArrayA, ref Vertex<A>[] ArrayB)
         {
-            Set<T> SetInstance = new Set<T>(new T[0]);
+            Graph<T> SetInstance = new Graph<T>(0);
 
-            A[] Array = new A[0];
+            Vertex<A>[] Array = new Vertex<A>[0];
             foreach (var Value in ArrayB)
             {
-                if (Submethods<A[]>.Contains<A>(ArrayA, Value))
+                if ( HasVertexOptional((dynamic)ArrayA,(dynamic)Value))
                 {
                     SetInstance.Add<A>(ref Array, Value);
                 }
             }
-            return new Set<A>(Array);
+            Graph<A> GRAPH = new Graph<A>(0);
+             
+            return new Graph<A>(Array);
+        }
+
+        public Graph<A> Add<A>(ref Vertex<A>[] ArrayA, Vertex<A> Value, int sizeincrease = 1)
+        {
+            Vertex<A>[] ReturnArray = new Vertex<A>[ArrayA.Length + sizeincrease];
+            int index = 0;
+            foreach (var AValue in ArrayA)
+            {
+                ReturnArray[index] = AValue;
+                index = index + 1;
+            }
+            ReturnArray[ArrayA.Length + sizeincrease - 1] = Value;
+
+            ArrayA = ReturnArray;
+
+            var Return = new Graph<A>(ReturnArray);
+
+            return Return;
         }
 
         public Set<A> Add<A>(ref A[] ArrayA, A Value, int sizeincrease = 1)
@@ -308,7 +336,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             Set<T> SetInstance = new Set<T>(new T[0]);
             foreach (var Value in ArrayB)
             {
-                if (SetInstance.Contains<A>(ArrayA, Value))
+                if ( SetInstance.Contains<A>(ArrayA, Value))
                 {
                     Remove<A>(ref ArrayA, Value);
                 }
@@ -403,9 +431,9 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             return Submethods<A[]>.Contains<A>(input, Value);
         }
 
-        public T[] ToArray<A>(Set<T> input)
+        public Vertex<T>[] ToArray<A>(Graph<T> input)
         {
-            return input.Value;
+            return input.Vertices;
         }
 
         public override bool Equals(object obj)
@@ -426,15 +454,14 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
         public override int GetHashCode()
         {
-            return Value.GetHashCode();
+            return Vertices.GetHashCode();
         }
 
         public IEnumerator GetEnumerator()
         {
-            return Value.GetEnumerator();
+            return Vertices.GetEnumerator();
         }
-
-        ~Set()
+        ~Graph()
         {
             this.Dispose(false);
         }

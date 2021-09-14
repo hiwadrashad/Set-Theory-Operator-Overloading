@@ -55,11 +55,41 @@ namespace Set_Theory_Operator_Overloading_LIB.DTO_s
             return (dynamic)neighbors;
         }
 
-        public void RemoveEdge(Vertex<T> vertex)
+        public void RemoveEdge<T>(Vertex<T> vertex)
         {
-            Sets.Set<T> SetInstance = new Sets.Set<T>(new T[0]);
-            var NeighbourInstance = (dynamic)neighbors as T[];
-            SetInstance.Add<T>(ref NeighbourInstance, (dynamic)vertex);
+            int index = 0;
+            foreach (var item in Neighbors)
+            {
+                if ((dynamic)item == (dynamic)vertex)
+                {
+                    break;
+                }
+                index = index + 1;
+            }
+            Vertex<T>[] ReturnArray = new Vertex<T>[Neighbors.Length - 1];
+            for (int i = index; i <= Neighbors.Length - 1; i++)
+            {
+                if (i == Neighbors.Length - 1)
+                {
+                    int Index2 = 0;
+                    foreach (var item in Neighbors)
+                    {
+                        if (Index2 == Neighbors.Length - 1)
+                        {
+
+                        }
+                        else
+                        {
+                            ReturnArray[Index2] = (dynamic)Neighbors[Index2];
+                        }
+                        Index2 = Index2 + 1;
+                    }
+                }
+                else
+                {
+                    Neighbors[i] = Neighbors[i + 1];
+                }
+            }
         }
 
 

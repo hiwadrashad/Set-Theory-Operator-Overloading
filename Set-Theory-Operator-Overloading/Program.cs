@@ -23,7 +23,11 @@ namespace Set_Theory_Operator_Overloading
             Vertex<int> Vertex2 = new Vertex<int>(2);
             Vertex.AddEdge(Vertex2);
 
-            Console.WriteLine(Vertex.Neighbors[0].Value);
+            Graph<int> GRAPH = new Graph<int>(0);
+            Vertex<int> VERTEX = new Vertex<int>(10);
+            Vertex<int> VERTEX2 = new Vertex<int>(11);
+            GRAPH.AddVertex(VERTEX);
+            Console.WriteLine(GRAPH.HasVertex(VERTEX));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Set_Theory_Operator_Overloading_LIB.DTO_s;
+using Set_Theory_Operator_Overloading_LIB.Interfaces;
 using Set_Theory_Operator_Overloading_LIB.Methods;
 using Set_Theory_Operator_Overloading_LIB.Singletons;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace Set_Theory_Operator_Overloading_LIB.Sets
 {
 
-    public class BinaryTree<T>
+    public class BinaryTree<T> : IBinaryTree<T>
     {
 
         public Node<T> Root { get; set; }
@@ -222,17 +223,6 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
 
                 return false;
             }
-        }
-        /// <summary>
-        /// /////////////////////////
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        /// 
-        public static void Dosomething()
-        {
-            var BinaryTreeInstance = new BinaryTree<T>();
         }
 
         public static bool operator == (BinaryTree<T> a, BinaryTree<T> b)
@@ -577,7 +567,7 @@ namespace Set_Theory_Operator_Overloading_LIB.Sets
             this.Dispose(true);
         }
 
-        private void Dispose(bool disposing)
+        public void Dispose(bool disposing)
         {
             if (disposing)
                 GC.SuppressFinalize(this);
